@@ -28,6 +28,9 @@ class Modmail_bot():
     # temporary #
 
     for mail in reddit.subreddit("all").modmail.conversations(limit=30, state=state_switch): # state_switch part of temporary #
+      # ignore notifications
+      if item.subject.lower().startswith('[notification]') or 'AutoModerator' in item.authors:
+        continue
       post_body = "####https://mod.reddit.com/mail/all/" + mail.id + "\n\n---\n\n"
       title = ""
 
@@ -101,6 +104,7 @@ class Modmail_bot():
   def post_thread(self, mail, body, title, sub_mail, new=False):
     if new is True:
       post = reddit.subreddit(sub_mail).submit(title, selftext=body, send_replies=False)
+      post.mod.approve() # approve post
       self.db_write(mail.id, mail.num_messages, thread_id=post.id)
       print("Created: " + title + " | subreddit: " + sub_mail)
     else:
