@@ -29,7 +29,7 @@ class Modmail_bot():
 
     for mail in reddit.subreddit("all").modmail.conversations(limit=30, state=state_switch): # state_switch part of temporary #
       # ignore notifications
-      if item.subject.lower().startswith('[notification]') or 'AutoModerator' in item.authors:
+      if mail.subject.lower().startswith('[notification]') or 'AutoModerator' in item.authors:
         continue
       post_body = "####https://mod.reddit.com/mail/all/" + mail.id + "\n\n---\n\n"
       title = ""
